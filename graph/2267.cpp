@@ -44,3 +44,61 @@ int main() {
 	printf("%d\n", ans.size());
 	for (int i = 0; i < ans.size(); i++) printf("%d\n", ans[i]);
 }
+
+///////////////////////////////////////////////////////////////////
+/* bfs add */
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include<memory.h>
+#include <stdio.h>
+using namespace std;
+int n, cnt;
+int arr[26][26];
+int dx[4] = { -1,0,1,0 };
+int dy[4] = { 0,1,0,-1 };
+bool check[26][26];
+vector<int> ans;
+queue<pair<int, int>> qu;
+void bfs(int x, int y) {
+	qu.push({ x,y });
+	cnt++;
+	check[x][y] = true;
+	while (!qu.empty()) {
+		int ox = qu.front().first;
+		int oy = qu.front().second;
+		qu.pop();
+		for (int i = 0; i < 4; i++) {
+			int nx = ox + dx[i];
+			int ny = oy + dy[i];
+			if (nx<0 || nx>n - 1 || ny<0 || ny>n - 1) continue;
+			if (arr[nx][ny] == 1 && !check[nx][ny]) {
+				check[nx][ny] = true;
+				qu.push({ nx,ny });
+				cnt++;
+			}
+		}
+	}
+}
+int main() {
+	//ios_base::sync_with_stdio(false), cin.tie(NULL);
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			scanf("%1d", &arr[i][j]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (arr[i][j] == 1 && !check[i][j]) {
+				bfs(i, j);
+				ans.push_back(cnt);
+				cnt = 0;
+			}
+		}
+	}
+	sort(ans.begin(), ans.end());
+	printf("%d\n", ans.size());
+	for (int i = 0; i < ans.size(); i++) printf("%d\n", ans[i]);
+}
