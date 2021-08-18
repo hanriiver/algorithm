@@ -57,3 +57,71 @@ int main() {
 		memset(check, 0, sizeof(check));
 	}
 }
+
+//////////////////////////////////////////////////////////////////////
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include<memory.h>
+using namespace std;
+vector<int> g[20001];
+int check[20001];
+queue<int> qu;
+void bfs(int index) {
+	qu.push(index);
+	while (!qu.empty()) {
+		int node = qu.front();
+		qu.pop();
+		for (int i = 0; i < g[node].size(); i++) {
+			int next = g[node][i];
+			if (check[next] == 0) {
+				if (check[node] == 1) {
+					check[next] = 2;
+				}
+				else {
+					check[next] = 1;
+				}
+				qu.push(next);
+			}
+
+		}
+
+	}
+}
+int main() {
+	ios_base::sync_with_stdio(false), cin.tie(NULL);
+	int T;
+	cin >> T;
+	while (T--) {
+		int v, e;
+		cin >> v >> e;
+		for (int i = 0; i < e; i++) {
+			int x, y;
+			cin >> x >> y;
+			g[x].push_back(y);
+			g[y].push_back(x);
+		}
+		for (int i = 1; i <= v; i++) {
+			if (check[i] == 0) {
+				check[i] = 1;
+				bfs(i);
+			}
+		}
+		bool flag = true;
+		for (int i = 1; i <= v; i++) {
+			for (int j = 0; j < g[i].size(); j++) {
+				if (check[i] == check[g[i][j]]) {
+					flag = false;
+					break;
+				}
+			}
+		}
+		if (flag) cout << "YES";
+		else cout << "NO";
+		cout << "\n";
+		memset(g, 0, sizeof(g));
+		memset(check, 0, sizeof(check));
+	}
+}
