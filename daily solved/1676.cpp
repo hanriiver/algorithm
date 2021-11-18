@@ -15,3 +15,28 @@ int main() {
 	}
 	cout << count;
 }
+// add
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+int main() {
+	ios_base::sync_with_stdio(false), cin.tie(NULL);
+	int n, ans = 0;
+	cin >> n;
+	if (n == 0) {
+		cout << "0";
+		return 0;
+	}
+	else {
+		for (int i = 1; i <= n; i++) {
+			int temp = i;
+			while (temp % 5 == 0) {
+				ans += 1;
+				temp /= 5;
+			}
+		}
+	}
+	cout << ans;
+}
