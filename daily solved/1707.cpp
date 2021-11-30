@@ -7,6 +7,7 @@
 using namespace std;
 int check[20001];
 vector<int> g[20001];
+queue<int> qu;
 void dfs(int x) {
 	for (int i = 0; i < g[x].size(); i++) {
 		int next = g[x][i];
@@ -18,6 +19,26 @@ void dfs(int x) {
 				check[next] = 1;
 			}
 			dfs(next);
+		}
+	}
+}
+void bfs(int x) {
+	qu.push(x);
+	while (!qu.empty()) {
+		int ox = qu.front();
+		qu.pop();
+		for (int i = 0; i < g[ox].size(); i++) {
+			int next = g[ox][i];
+			if (check[next] == 0) {
+				if (check[ox] == 1) {
+					check[next] = 2;
+				}
+				else {
+					check[next] = 1;
+				}
+				qu.push(next);
+			}
+
 		}
 	}
 }
@@ -37,7 +58,7 @@ int main() {
 		for (int i = 1; i <= v; i++) {
 			if (check[i] != 0) continue;
 			check[i] = 1;
-			dfs(i);
+			bfs(i);
 		}
 		bool flag = true;
 		for (int i = 0; i < v; i++) {
