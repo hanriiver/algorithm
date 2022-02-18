@@ -24,5 +24,5 @@ int main() {
         string s;
         cin >> s;
         cout << mm[s] << "\n";
-    }
+    } 
 }
